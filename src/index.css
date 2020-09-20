@@ -5,7 +5,13 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* padding: 20px 30px; */
+}
+
+#root{
   padding: 20px 30px;
+  background-color: #CCE8CF;
+  min-height: 100vh;
 }
 
 code {

@@ -4,6 +4,7 @@ import XLSX from 'xlsx';
 import { sum } from 'lodash';
 import { UploadOutlined, DownloadOutlined, ToTopOutlined } from '@ant-design/icons';
 import './myapp.css';
+import Timer from './timer';
 
 export default class MyApp extends Component {
   constructor(props) {
@@ -39,6 +40,7 @@ export default class MyApp extends Component {
             case '地市': map['city'] = key; break;
             case '项目名称': map['project_name'] = key; break;
             case '项目编码': map['project_num'] = key; break;
+            case '项目类型': map['project_type'] = key; break;
             case '建设方式': map['build_method'] = key; break;
             default: ;
           }
@@ -52,6 +54,7 @@ export default class MyApp extends Component {
             city: data[i][map.city],
             project_name: data[i][map.project_name],
             project_num: data[i][map.project_num],
+            project_type: data[i][map.project_type],
             build_method: data[i][map.build_method],
             '塔基施工专业0': t['塔基施工专业0'],
             '塔基施工专业': t['塔基施工专业'],
@@ -100,6 +103,7 @@ export default class MyApp extends Component {
           data = data.concat(XLSX.utils.sheet_to_json(sheet));
         }
         const header = data[0];
+        console.log(header);
         for (const key in header) {
           switch (header[key]) {
             case '塔基施工专业0': map['塔基施工专业0'] = key; break;
@@ -199,6 +203,12 @@ export default class MyApp extends Component {
       {
         title: '项目编号',
         dataIndex: 'project_num',
+        width: 200,
+        align: 'center',
+      },
+      {
+        title: '项目类型',
+        dataIndex: 'project_type',
         width: 200,
         align: 'center',
       },
@@ -432,9 +442,12 @@ export default class MyApp extends Component {
     ]
     return (
       <React.Fragment>
+        <Timer />
         <Row gutter={48} style={{ margin: '20px 0' }}>
-          <Col span={8}>
-            <label htmlFor="upload2">结算台账：</label>
+          <Col md={8} sm={24} xs={24} style={{
+            marginBottom: '10px'
+          }}>
+            <label htmlFor="upload2" style={{color: '#fff'}}>结算台账：</label>
             <Upload
               accept=".xls, .xlsx"
               name="upload2"
@@ -442,13 +455,15 @@ export default class MyApp extends Component {
               action={null}
               beforeUpload={this.beforeUpload2.bind(this)}
             >
-              <Button icon={<UploadOutlined />} loading={loading2}>
+              <Button icon={<UploadOutlined />} loading={loading2} ghost>
                 导入结算台账
               </Button>
             </Upload>
           </Col>
-          <Col span={8}>
-            <label htmlFor="upload">PROJECTINFO：</label>
+          <Col md={8} sm={24} xs={24} style={{
+            marginBottom: '10px'
+          }}>
+            <label htmlFor="upload" style={{color: '#fff'}}>PROJECTINFO：</label>
             <Upload
               accept=".xls, .xlsx"
               name="upload"
@@ -457,13 +472,15 @@ export default class MyApp extends Component {
               beforeUpload={this.beforeUpload.bind(this)}
               disabled={taizhang.length === 0}
             >
-              <Button icon={<UploadOutlined />} loading={loading} disabled={taizhang.length === 0}>
+              <Button icon={<UploadOutlined />} loading={loading} disabled={taizhang.length === 0} ghost>
                 导入PROJECTINFO
               </Button>
             </Upload>
           </Col>
-          <Col>
-            <Button icon={<DownloadOutlined />} onClick={this.exportToExcel.bind(this)} disabled={dataSource.length === 0} loading={loading3}>
+          <Col md={8} sm={24} xs={24} style={{
+            marginBottom: '10px'
+          }}>
+            <Button type="primary" icon={<DownloadOutlined />} onClick={this.exportToExcel.bind(this)} disabled={dataSource.length === 0} loading={loading3}>
               导出
             </Button>
           </Col>
@@ -478,6 +495,8 @@ export default class MyApp extends Component {
           loading={loading}
           rowKey="project_num"
         />
+        <p style={{color: '#ad9d9d', fontSize: '3px', padding: '6em 0', textAlign: 'left'}}>可能你再也不会打开这个页面了，可能也是我最后为你做的一件事。</p>
+        <p style={{color: '#ad9d9d', textAlign: 'left'}}>希望你每天幸福。2020-09-20 21:22</p>
         <BackTop>
           <div className="backtop-div">
             <ToTopOutlined style={{fontSize: '30px'}} />
